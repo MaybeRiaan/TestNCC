@@ -1,0 +1,641 @@
+<style>
+  .team-grid {
+    width: 100%;
+    display: grid;
+    grid-column-gap: 120px;
+    grid-row-gap: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  @media only screen and (max-width: 900px) {
+    .team-grid {
+      grid-template-columns: repeat(10, 200px);
+      grid-column-gap: 40px;
+      grid-row-gap: 0px;
+      overflow: auto;
+      margin: 0 -4%;
+      padding: 0 4%;
+    }
+  }
+  
+  .empty2 {
+        display: none;
+  }
+  
+  @media only screen and (max-width: 1076px) {
+   .empty {
+        display: none !important;
+    }
+    
+    .empty2 {
+        display: none;
+    }
+  }
+  
+  @media only screen and (max-width: 1478px) {
+    .empty1 {
+        display: none;
+    }
+    
+    .empty2 {
+        display: block;
+    }
+  }
+
+  .grid-cell {
+    text-align: center;
+  }
+
+  .grid-cell figure {
+    margin-bottom: 0;
+  }
+
+  .team-member-info .name-block {
+    border-radius: 9999px;
+    text-transform: lowercase;
+    font-weight: bold;
+    background-color: var(--light-purple);
+    border: 2px solid var(--light-purple);
+    color: white;
+    padding: 8px 0;
+    position: relative;
+    transition: background-color ease var(--animation-speed),
+      color ease var(--animation-speed);
+  }
+
+  .team-member-info .name-block:hover {
+    background-color: white;
+    color: var(--light-purple);
+  }
+
+  .team-member-info .name-block .name {
+    text-transform: lowercase;
+    font-weight: bold;
+    font-size: var(--body-font-size);
+    position: relative;
+  }
+
+  .team-member-info .name-block .blurb {
+    text-transform: lowercase;
+    font-weight: 500;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .team-member-info .blurb:before {
+    content: "“";
+    font-weight: 500;
+  }
+
+  .team-member-info .blurb:after {
+    content: "”";
+    font-weight: 500;
+  }
+
+  .team-member-info {
+    font-size: 15px;
+    line-height: 2em;
+    text-transform: lowercase;
+  }
+
+  h2.heading1 {
+    font-size: 35px;
+    text-transform: uppercase;
+    margin: 0.8em auto 0.5em auto;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  p.paragraph {
+    font-size: 20px;
+    line-height: 1.4em;
+    max-width: 1071px;
+    padding: 1em;
+    text-align: center;
+    margin: 1.4em auto 1.4em auto;
+  }
+
+  p.paragraph small {
+    font-size: 16px;
+    line-height: 1.2em;
+  }
+
+  .map-black-white {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+
+  @media only screen and (max-width: 768px) {
+    h2.heading1 {
+      font-size: 35px;
+    }
+
+    p.paragraph {
+      font-size: 16px;
+      max-width: 620px;
+    }
+
+    p.paragraph small {
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (max-width: 357px) {
+    h2.heading1 {
+      font-size: 18px;
+    }
+
+    p.paragraph {
+      font-size: 16px;
+      max-width: 312px;
+    }
+
+    p.paragraph small {
+      font-size: 14px;
+    }
+  }
+</style>
+<style>
+  .main-body {
+    overflow-x: hidden;
+  }
+
+  body {
+    --animation-speed: 200ms;
+    --section-space: 100px;
+  }
+
+  .hero-wrapper {
+    --hero-height: 550px;
+    --left-offset: 14vw;
+    --extra-width: 19vw;
+    margin: 1em calc(50% - 50vw);
+    width: 100vw;
+    height: var(--hero-height);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero {
+    background-size: cover;
+    background-position: right bottom;
+    height: var(--hero-height);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: z-index ease var(--animation-speed),
+      opacity ease var(--animation-speed), filter ease var(--animation-speed);
+    border-top-right-radius: calc(var(--hero-height) / 2);
+    border-bottom-right-radius: calc(var(--hero-height) / 2);
+    overflow: hidden;
+  }
+
+  .hero .hero-content {
+    background-color: rgba(17, 22, 124, 1);
+    mix-blend-mode: color;
+    width: 100%;
+    height: 100%;
+    transition: background-color ease var(--animation-speed);
+  }
+
+  .hero:hover {
+    z-index: 5;
+    filter: none;
+  }
+
+  .hero:hover .hero-content {
+    background-color: rgba(17, 22, 124, 0);
+    mix-blend-mode: color;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero:hover ~ .hero {
+    opacity: 0;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .xhero1 {
+      display: none;
+    }
+
+    .hero-wrapper {
+      --hero-height: 200px;
+    }
+  }
+
+  .hero1 {
+    background-image: url(https://fabrikmedia.blob.core.windows.net/1no9/51e0a647eb42ef4c.png);
+    background-position: center center;
+    width: calc(var(--left-offset) + 1 * var(--extra-width));
+    z-index: 4;
+  }
+
+  .hero2 {
+    background-image: url(https://fabrikmedia.blob.core.windows.net/1no9/aa48357ada17ead1.png);
+    background-position: center center;
+    width: calc(var(--left-offset) + 2 * var(--extra-width));
+    z-index: 3;
+  }
+
+  .hero3 {
+    background-image: url(https://fabrikmedia.blob.core.windows.net/1no9/74bfa06ea6ce2de4.png);
+    background-position: center center;
+    width: calc(var(--left-offset) + 3 * var(--extra-width));
+    z-index: 2;
+  }
+
+  .hero4 {
+    background-image: url(https://fabrikmedia.blob.core.windows.net/1no9/a3d317c125a8149c.png);
+    background-position: right center;
+    width: calc(var(--left-offset) + 4 * var(--extra-width));
+    z-index: 1;
+  }
+</style>
+
+<style>
+  body {
+    --light-purple: rgba(132, 121, 225, 1);
+    --dark-blue: rgba(17, 22, 124, 1);
+    --body-font-size: 26px;
+    --header-font-size: 42px;
+  }
+
+  @media only screen and (max-width: 900px) {
+    body {
+      --body-font-size: 20px;
+      --header-font-size: 32px;
+    }
+  }
+
+  .content-text {
+    font-size: var(--body-font-size);
+    padding: 0;
+    width: unset;
+    margin: 0 auto;
+    max-width: 92.5rem;
+  }
+
+  .light-purple-text {
+    color: var(--light-purple);
+  }
+
+  .underlined-text {
+    font-weight: 500;
+    color: var(--dark-blue);
+    font-size: var(--header-font-size);
+  }
+
+  .half-width {
+    max-width: calc(40%);
+  }
+
+  @media only screen and (max-width: 900px) {
+    .half-width {
+      max-width: 100%;
+    }
+  }
+
+  .underlined-text:after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 3px;
+    margin-top: 20px;
+    background-color: var(--light-purple);
+  }
+
+  .right-content {
+    margin-left: 50%;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .right-content {
+      margin-left: 0;
+    }
+  }
+
+  section {
+    margin: var(--section-space) 0;
+  }
+
+  .section-heading {
+    color: var(--dark-blue);
+    font-size: var(--header-font-size);
+    line-height: 1.45;
+    margin-bottom: 1em;
+  }
+
+  .quote {
+    margin: 0;
+    color: var(--dark-blue);
+    font-size: var(--header-font-size);
+    line-height: 1.45;
+    margin-right: 140px;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .quote {
+      margin-right: 0;
+    }
+  }
+
+  .quote figcaption,
+  .quote blockquote {
+    margin: 0;
+  }
+
+  .quote figcaption {
+    color: var(--light-purple);
+    font-size: var(--body-font-size);
+    margin-top: var(--body-font-size);
+  }
+
+  .quote blockquote:before {
+    content: "“";
+  }
+
+  .quote blockquote:after {
+    content: "”";
+  }
+
+  .circles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 80px;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .circles {
+      display: none;
+    }
+  }
+</style>
+
+
+<style>
+  .gray-section-wrapper {
+    margin: 1em calc(50% - 50vw);
+    width: 100vw;
+    background-color: #f8f8f8;
+    padding-top: var(--section-space);
+    padding-bottom: var(--section-space);
+    overflow: hidden;
+  }
+
+  .gray-section {
+    margin: 0 auto;
+    max-width: 92.5rem;
+    padding: 0 4%;
+  }
+</style>
+
+<div class="gray-section-wrapper team-section-wrapper">
+  <section class="gray-section">
+    <h2 class="underlined-text half-width">
+      here's what <span class="light-purple-text">we</span> kinda look like
+    </h2>
+    <div class="team-grid">
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/a702c8accd0178fd.png"
+            data-image="a702c8accd0178fd.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Amy Knight</div>
+            <div class="blurb">studio mum & party-thrower</div>
+          </div>
+          <div class="role">Post Producer</div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/40b8e825fcfab7d6.png"
+            data-image="40b8e825fcfab7d6.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Paul Speirs</div>
+            <div class="blurb">bradley cooper hair envy</div>
+          </div>
+          <div class="role">Creative Director/Narrative Editor</div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/236373278dc9a0f9.png"
+            data-image="236373278dc9a0f9.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Riaan Myburgh</div>
+            <div class="blurb">philosopher-cynic yet loveable</div>
+          </div>
+          <div class="role">Creative Director/VFX/Motion Graphics</div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/e05d23c08f64a9d3.png"
+            data-image="e05d23c08f64a9d3.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Lauren Holliday</div>
+            <div class="blurb">studio middle child, resident yogi</div>
+          </div>
+          <div class="role">Illustrator/Graphic Designer</div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/2e25e8a84366d67b.png"
+            data-image="2e25e8a84366d67b.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Declan Manca</div>
+            <div class="blurb">eeyore w/ a grandpa sweater swag</div>
+          </div>
+          <div class="role">VFX/3D Artist/Motion Graphics</div>
+        </div>
+      </div>
+
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/6d9c28dfc3626359.png"
+            data-image="92b79160c66576e7.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">alex nkholise</div>
+            <div class="blurb">Expert breather</div>
+          </div>
+          <div class="role">animation editor</div>
+        </div>
+      </div>
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/b30c0088676e61bf.png"
+            data-image="dfd4cbda255d31dd.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">liam cockcroft</div>
+            <div class="blurb">Today is especially delicious - nacho</div>
+          </div>
+          <div class="role">motion graphics</div>
+        </div>
+      </div>
+      
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/92b79160c66576e7.png"
+            data-image="92b79160c66576e7.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Kevin Buya</div>
+            <div class="blurb">cookie baker and dope jacket wearer</div>
+          </div>
+          <div class="role">Office Manager</div>
+        </div>
+      </div>
+      
+      <div class="grid-cell empty1">
+      </div>
+      
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/9aa54b86c129738f.png"
+            data-image="9aa54b86c129738f.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Ali Cox</div>
+            <div class="blurb">sleeper darts champion</div>
+          </div>
+          <div class="role">Accounts</div>
+        </div>
+      </div>
+      
+      <div class="grid-cell empty empty2">
+      </div>
+      
+      <div class="grid-cell">
+        <figure>
+          <img
+            src="https://fabrikmedia.blob.core.windows.net/1no9/feb0b466160872d3.png"
+            data-image="dfd4cbda255d31dd.png"
+            class="lazyload"
+          />
+        </figure>
+        <div class="team-member-info">
+          <div class="name-block show-on-hover-wrapper">
+            <div class="name">Mika</div>
+            <div class="blurb">hates a good bath, loves a bad treat</div>
+          </div>
+          <div class="role">Branch Manager</div>
+        </div>
+      </div>
+
+      <div class="grid-cell empty empty3">
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<style>
+  .show-on-hover-wrapper {
+    position: relative;
+  }
+
+  .show-on-hover-wrapper > :first-child {
+    opacity: 1;
+    transition: opacity ease var(--animation-speed);
+  }
+
+  .show-on-hover-wrapper:hover > :first-child {
+    opacity: 0;
+  }
+
+  .show-on-hover-wrapper > :nth-child(2) {
+    opacity: 0;
+    transition: opacity ease var(--animation-speed);
+    position: absolute;
+    top: 0;
+  }
+
+  .show-on-hover-wrapper:hover > :nth-child(2) {
+    opacity: 1;
+  }
+</style>
+
+
+<style>
+  .mika-wrapper {
+    margin-right: calc(50% - 50vw);
+    display: flex;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  .mika {
+    background-image: url(https://fabrikmedia.blob.core.windows.net/1no9/6a298b7675aee800.jpg);
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    height: 250px;
+    border-top-left-radius: 125px;
+    border-bottom-left-radius: 125px;
+  }
+
+  .contact-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .contact-area {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
